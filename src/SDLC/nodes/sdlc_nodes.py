@@ -78,6 +78,7 @@ class SDLC_Nodes:
 
         if state.get("design_feedback"):
             state["completed_section"] = []
+            state['final_doc']=[]
             output = self.llm_registry['document_creator'].invoke(
             [
                 SystemMessage(content=system_prompt),

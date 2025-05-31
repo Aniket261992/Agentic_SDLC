@@ -134,9 +134,9 @@ class LoadStreamlitUi:
                 })
                 self.data.update(output)
                 if approval == "Denied":
-                    st_session_state.state = {"stage": "security_review", "data": self.data}
-                else:
                     st_session_state.state = {"stage": "code_review", "data": self.data}
+                else:
+                    st_session_state.state = {"stage": "security_review", "data": self.data}
 
                 self.update_stage_and_data(st_session_state)
                 st.rerun()
@@ -164,9 +164,9 @@ class LoadStreamlitUi:
                 self.data.update(output)
 
                 if approval == "Denied":
-                    st_session_state.state = {"stage": "test_review", "data": self.data}
-                else:
                     st_session_state.state = {"stage": "security_review", "data": self.data}
+                else:
+                    st_session_state.state = {"stage": "test_review", "data": self.data}
 
                 self.update_stage_and_data(st_session_state)
                 st.rerun()
@@ -192,8 +192,13 @@ class LoadStreamlitUi:
                     "testcase_approval": approval,
                     "testcase_comments": feedback if approval == "Denied" else ""
                 })
-                st.success("🎉 All steps complete!")
-                st_session_state.state = {"stage": "completed", "data": {}}
+                self.data.update(output)
+
+                if approval == "Denied":
+                    st_session_state.state = {"stage": "test_review", "data": self.data}
+                else:
+                    st.success("🎉 All steps complete!")
+                    st_session_state.state = {"stage": "completed", "data": {}}
 
         elif self.stage == "completed":
             st.balloons()
