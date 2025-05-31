@@ -14,6 +14,7 @@ def initialize_streamlit_ui(st_session_state):
         load_dotenv()
         os.environ['LANGCHAIN_API_KEY'] = os.getenv("LANGCHAIN_API_KEY")
         os.environ['LANGCHAIN_PROJECT'] = os.getenv("LANGCHAIN_PROJECT")
+        os.environ['LANGCHAIN_TRACING_V2'] = "true"
 
 
 class LoadStreamlitUi:
@@ -164,7 +165,7 @@ class LoadStreamlitUi:
                 self.data.update(output)
 
                 if approval == "Denied":
-                    st_session_state.state = {"stage": "security_review", "data": self.data}
+                    st_session_state.state = {"stage": "code_review", "data": self.data}
                 else:
                     st_session_state.state = {"stage": "test_review", "data": self.data}
 
