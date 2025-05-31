@@ -1,3 +1,14 @@
+---
+title: SDLC Agentic Workflow
+emoji: 🧠
+colorFrom: blue
+colorTo: indigo
+sdk: streamlit
+sdk_version: "1.32.0"
+app_file: app.py
+pinned: false
+---
+
 ### End to End Agentic SDLC Project
 
 # 🧠 Agentic AI for Software Design Life Cycle (SDLC)
