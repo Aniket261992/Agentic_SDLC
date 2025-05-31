@@ -12,6 +12,8 @@ def initialize_streamlit_ui(st_session_state):
         if "state" not in st_session_state:
             st_session_state.state = {"stage": "config", "data": {}}
         load_dotenv()
+        os.environ['LANGCHAIN_API_KEY'] = os.getenv("LANGCHAIN_API_KEY")
+        os.environ['LANGCHAIN_PROJECT'] = os.getenv("LANGCHAIN_PROJECT")
 
 
 class LoadStreamlitUi:
@@ -131,7 +133,10 @@ class LoadStreamlitUi:
                     "review_comments": feedback if approval == "Denied" else ""
                 })
                 self.data.update(output)
-                st_session_state.state = {"stage": "security_review", "data": self.data}
+                if approval == "Denied":
+                    st_session_state.state = {"stage": "security_review", "data": self.data}
+                else:
+                    st_session_state.state = {"stage": "code_review", "data": self.data}
 
                 self.update_stage_and_data(st_session_state)
                 st.rerun()
@@ -157,7 +162,11 @@ class LoadStreamlitUi:
                     "review_comments": feedback if approval == "Denied" else ""
                 })
                 self.data.update(output)
-                st_session_state.state = {"stage": "test_review", "data": self.data}
+
+                if approval == "Denied":
+                    st_session_state.state = {"stage": "test_review", "data": self.data}
+                else:
+                    st_session_state.state = {"stage": "security_review", "data": self.data}
 
                 self.update_stage_and_data(st_session_state)
                 st.rerun()
