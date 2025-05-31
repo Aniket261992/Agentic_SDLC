@@ -201,18 +201,29 @@ class SDLC_Nodes:
     def test_case_writer(self,state:State):
         """Write testcases for the source code"""
 
-        test_case = self.llm_registry['test_writer'].invoke(
-            [
-                SystemMessage(content="""You are a senior QA engineer. Given a Python source, write unit tests for it using pytest. Ensure edge cases are tested. Donot provide non executable output
+        system_prompt = """You are a senior QA engineer. Given a Python source, write unit tests for it using pytest. Ensure edge cases are tested. Donot provide non executable output
                             The output should be like below:
                             #Explanation of the test cases (should be in comments format in a python file)
                             
                             <Actual executable code> 
                             
-                            #Explanation on what to keep in mind (should be in comments format in a python file)"""),
-                HumanMessage(content=f"""Here is the source code: {state['source_code']}, Write 3 to 5 test cases as executable pytest functions""")
+                            #Explanation on what to keep in mind (should be in comments format in a python file)"""
+        if state.get('testcase_comments'):
+            test_case = self.llm_registry['test_writer'].invoke(
+            [
+                SystemMessage(content=system_prompt),
+                HumanMessage(content=f"""Here is the source code: {state['source_code']}, Write 3 to 5 test cases as executable pytest functions"""),
+                AIMessage(f"{state['testcases']}"),
+                HumanMessage(content=f"""Please rewrite the testcases based on the feedback: {state['testcase_comments']}""")
             ]
         )
+        else:
+            test_case = self.llm_registry['test_writer'].invoke(
+                [
+                    SystemMessage(content=system_prompt),
+                    HumanMessage(content=f"""Here is the source code: {state['source_code']}, Write 3 to 5 test cases as executable pytest functions""")
+                ]
+            )
 
         with open("test_generated.py", "w") as f:
             f.write(test_case.content)
