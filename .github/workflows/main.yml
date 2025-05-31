@@ -21,4 +21,4 @@ jobs:
       - name: Push to hub
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push --force //huggingface.co/spaces/Aniket2692/SDLC_Agentic_Workflow main
+        run: git push --force https://huggingface.co/spaces/Aniket2692/SDLC_Agentic_Workflow/tree/main
