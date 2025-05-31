@@ -242,7 +242,7 @@ class SDLC_Nodes:
     def test_case_router(self,state:State):
         """Route the flow back to the testcase writer based on the approval"""
         
-        if state['code_approval'] == "Approved":
+        if state['testcase_approval'] == "Approved":
             return "Accepted"
         else:
             return "Reiterate"
