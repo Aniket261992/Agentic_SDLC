@@ -189,7 +189,7 @@ class LoadStreamlitUi:
             approval = st.radio("Approve test cases?", ["Approved", "Denied"])
             feedback = st.text_area("Testcase feedback:", disabled=approval == "Approved")
             if st.button("Submit Testcase Review"):
-                self.display.resume_pipeline({
+                output = self.display.resume_pipeline({
                     "testcase_approval": approval,
                     "testcase_comments": feedback if approval == "Denied" else ""
                 })
