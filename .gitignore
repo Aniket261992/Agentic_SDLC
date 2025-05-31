@@ -1,1 +1,6 @@
 venv/
+example.py
+streamlit_app.py
+.env
+design_agent.py
+__pycache__
