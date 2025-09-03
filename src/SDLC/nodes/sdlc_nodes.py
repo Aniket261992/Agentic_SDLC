@@ -72,8 +72,6 @@ class SDLC_Nodes:
     ]
     }
     Do not include any explanation or text outside the JSON.
-
-    Limit to 6 sections max.
     """
 
         if state.get("design_feedback"):
